@@ -1,0 +1,52 @@
+{% extends 'myapp/base.html' %} 
+
+{% block content %}
+
+<!-- Start your project here-->
+<!-- Jumbotron -->
+<div
+  class="p-5 text-center bg-image rounded-3"
+  style="
+    background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.jpg');
+    height: 400px;
+  "
+>
+  <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <div class="text-white">
+        <h1 class="mb-3">{{ request.site.siteconfig.top_title }}</h1>
+        <h4 class="mb-3">{{ request.site.siteconfig.top_subtitle }}</h4>
+      </div>
+    </div>
+  </div>
+</div>
+<br /><br />
+<!-- Jumbotron -->
+<!-- End your project here-->
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for item in post_list %}
+
+  <div class="col">
+    <div class="card h-100">
+      {% if item.thumbnail %}
+      <img src="{{ item.thumbnail.url }}" class="card-img-top"
+      alt="{{ item.title }}"/>
+      {% else %}
+      <img src="https://mdbootstrap.com/img/new/standard/city/041.jpg" class="card-img-top"
+          alt="{{ item.title }}"/>
+      {% endif %}
+      <a href="{% url 'myapp:post_detail' item.id %}"></a>
+      <div class="card-body">
+        <h4 class="card-title">{{ item.title }} <small style="color:blue">{{ item.author }}の記事</small></h4>
+        <p>{{ item.category }}</p>
+        <p class="card-text">{{ item.content | safe | truncatechars_html:30 }}</p>
+        <a href="{% url 'myapp:post_detail' item.id %}" type="button" class="btn btn-dark btn-md">もっと読む</a>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{% endblock %}
